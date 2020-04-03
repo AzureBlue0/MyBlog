@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>湛蓝的博客</title>
+    <!--<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">-->
+    <style>
+      .snow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: url(./static/bg/snow1.png), url(./static/bg/snow2.png);
+        -webkit-animation: snow-wave 10s linear infinite;
+        -moz-animation: snow-wave 10s linear infinite;
+        animation: snow-wave 10s linear infinite;
+        pointer-events: none;
+        z-index: 6;
+      }
+
+      @-webkit-keyframes snow-wave {
+        0% {
+          background-position: 0 0, 0 0
+        }
+        100% {
+          background-position: 500px 1000px, 1000px 1000px
+        }
+      }
+
+      @-moz-keyframes snow-wave {
+        0% {
+          background-position: 0 0, 0 0
+        }
+        100% {
+          background-position: 500px 1000px, 1000px 1000px
+        }
+      }
+
+      @keyframes snow-wave {
+        0% {
+          background-position: 0 0, 0 0
+        }
+        100% {
+          background-position: 500px 1000px, 1000px 1000px
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="snow"></div>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

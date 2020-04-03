@@ -1,0 +1,66 @@
+@charset "utf-8";
+.hanbao{
+    display: block;
+    font-size: 30px;
+    cursor: pointer;
+    transition: transform .2s ease;
+}
+.hanbao:before, .hanbao:after{
+    line-height: 1;
+}
+.hanbao:before{
+    content: '☰';
+    display: inline-block;
+}
+.hanbao:after{
+    content: '╳';
+    display: none;
+}
+
+.hanbao-on{transform: rotate(180deg);}
+.hanbao-on::before{
+    display: none;
+}
+.hanbao-on::after{
+    display: inline-block;
+}
+
+/*文章展示页目录的css*/
+.docNav{color: #4c4948;}
+.docNav > div {text-align: center; font-size: 17px;}
+.docNav .active{color: #0a7bc4;}
+.docNav h1{cursor: pointer;}
+.docNav h2{padding-left: 0.571rem;/*8*/ cursor: pointer;}
+.docNav h3{padding-left: 1.143rem;/*16*/ cursor: pointer;}
+.docNav h4{padding-left: 1.714rem;/*24*/ cursor: pointer;}
+.docNav h5{padding-left: 2.286rem;/*32*/ cursor: pointer;}
+.docNav h6{padding-left: 2.857rem;/*40*/ cursor: pointer;}
+/*.docNav h1:hover{color: #0a7bc4;}
+.docNav h2:hover{color: #0a7bc4;}
+.docNav h3:hover{color: #0a7bc4;}
+.docNav h4:hover{color: #0a7bc4;}
+.docNav h5:hover{color: #0a7bc4;}
+.docNav h6:hover{color: #0a7bc4;}*/
+
+.markdown-body > h1:nth-child(1){margin-top: 1.714rem!important;/*24*/}
+
+*::-webkit-scrollbar{width: 0.571rem;/*8*/}
+*::-webkit-scrollbar-track{
+  border-radius: 0.571rem;/*8*/ /*滚动条背景区域的圆角*/
+  background-color: #fff;/*滚动条背景区域的背景颜色*/
+}
+*::-webkit-scrollbar-thumb{
+  border-radius: 0.571rem;/*8*/ /*滚动条的圆角*/
+  background-color: #9f9f9f;  /*滚动条的背景颜色*/
+}
+.v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper.scroll-style::-webkit-scrollbar {
+  width: 6px;
+}
+.v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper.scroll-style::-webkit-scrollbar-thumb {
+  background-color: #b7b7b7;
+  border-radius: 4px;
+}
+.v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper.scroll-style::-webkit-scrollbar-track {
+  -webkit-box-shadow: 0 0 0px #808080 inset;
+  background-color: #e5e5e5;
+}

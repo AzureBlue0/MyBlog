@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>翻牌小游戏</title>
+    <style>
+        *{margin:0;padding:0;}
+        ul{list-style:none;}
+        body{background-color: skyblue;}
+        #wrap{width: 340px; min-height: 340px; margin: 0 auto; padding-bottom: 30px;}
+        #wrap .btn{display: flex; justify-content: center; padding: 50px 0;}
+        #wrap .btn button{padding: 3px 20px; font-size: 16px; font-weight: bold;}
+        #wrap ul{width:100%; min-height: 340px;}
+        #wrap ul li{position: relative; float: left; height: 73px; width: 73px; cursor: pointer; box-shadow: 5px 5px rgba(0,0,0,0.5); overflow: hidden; border-radius: 10px; margin-left: 10px; margin-top: 10px;}
+        ul li img.back{position: absolute; top:0; left:0;}
+        ul li span{display:none;}
+        .active{margin-top: -73px; margin-left: -73px; opacity: 0; -webkit-animation: active 0.5s;}
+        @-webkit-keyframes active {
+            0% {
+                margin-top: 0px;
+                margin-left: 0px;
+                opacity: 1;
+            }
+            100% {
+                margin-top: -73px;
+                margin-left: -73px;
+                opacity: 0;
+            }
+        }
+        .unactive{margin-top: 0px; margin-left: 0px; opacity: 1; animation: unactive 0.5s;}
+        @keyframes unactive {
+            0% {
+                margin-top: -73px;
+                margin-left: -73px;
+                opacity: 0;
+            }
+            100% {
+                margin-top: 0px;
+                margin-left: 0px;
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div class="btn">
+            <button id="re_btn">重 置</button>
+        </div>
+        <ul>
+            <!-- <li>
+                <img class="back" src="images/back1.jpg" alt="">
+                <img src="images/modle0.jpg" alt="">
+                <span>0</span>
+            </li> -->
+        </ul>
+    </div>
+    <script>
+        let oUl = document.querySelector("#wrap ul");
+        let re_btn = document.getElementById('re_btn');
+        /* // 可以这样生成数组
+        let arr1 = [];
+        for(let i=0; i < 16; i++){
+            arr1[i] = i;
+            if(arr1.length >= 8){
+                arr1[i] = i%8;
+            }
+            // arr1.length >= 8 ? arr1[i] = i%8 : arr1[i] = i;// 简写
+        }
+        console.log('arr1:'+arr1); */
+        // 但这样便捷一点
+        let arr = [0,1,2,3,4,5,6,7];
+        // 把这个数组展开再push进数组里，相当于把自身全部的值复制一遍再塞给自己
+        arr.push(...arr);
+        // console.log(arr);
+        let num = arr.sort(function(){
+            /* sort方法里返回值为负数时,代表第一个比第二个小,0 代表相等,正数代表参数一大于参数二
+                负数就是从小到大(升序)，正数就是从大到小(降序)
+                但是这里随机的数字减去0.5就不确定是正还是负,所以一会儿大一会儿小就发生了错乱 */
+            return Math.random()-0.5;
+        });
+        // console.log(num);
+        //生成li内容
+        let str = "";
+        for(let i=0; i < arr.length; i++){
+            str += `<li>
+                        <img class="back" src="images/back1.jpg" alt="">
+                        <img class="img" src="images/modle${num[i]}.jpg" alt="">
+                        <span>${num[i]}</span>
+                    </li>`
+        }
+        oUl.innerHTML = str;
+        let aBack = document.querySelectorAll('img.back');// 封面图片
+        let aImg = document.querySelectorAll('ul li .img');
+        let aSpan = document.querySelectorAll('ul li span');// 存内容图片名的span标签
+        let back_arr = [];  // 记录点击了几次的数组
+        let span_arr = [];  // 记录点击的图片名用于比较的数组
+        // 点击事件
+        for(let i=0; i < aBack.length; i++){
+            // aBack是封面图片,有类名back的是封面图片,没有的是内容图片,只有封面图片有点击事件
+            aBack[i].index = i;
+            aBack[i].onclick = function(){
+                this.classList.add('active');
+                this.classList.remove('unactive');
+                back_arr.push(this.index);// 记录点击了几次的数组(判定是否是两次点击)
+                let spanHtml = aSpan[this.index].innerText;
+                //console.log(spanHtml);
+                span_arr.push(spanHtml);// 记录点击的图片名用于比较的数组
+                
+                if(back_arr.length === 2){// 判断如果点击了两次
+                    if(span_arr[0] === span_arr[1]){
+                        // console.log(back_arr,span_arr,'if');
+                        // 判断如果两次点开的图片相等,就什么都不做只把记录的数组清空
+                        back_arr.length = 0;
+                        span_arr.length = 0;
+                    } else {
+                        // console.log(back_arr,span_arr,'else');
+                        /* 如果两次点开的图片不相等,就把封面图片展开挡住内容图片,再把记录数组清空 */
+                        aBack[back_arr[0]].classList.remove('active');
+                        aBack[back_arr[1]].classList.remove('active');
+                        aBack[back_arr[0]].classList.add('unactive');
+                        aBack[back_arr[1]].classList.add('unactive');
+                        back_arr.length = 0;
+                        span_arr.length = 0;
+                    }
+                }
+            }
+        }
+        // 重置事件
+        re_btn.onclick = function(){
+            back_arr.length = 0;
+            span_arr.length = 0;
+            arr = [0,1,2,3,4,5,6,7];
+            arr.push(...arr);
+            num = arr.sort(function(){
+                return Math.random()-0.5;
+            });
+            for(let i=0; i < aBack.length; i++){
+                aImg[i].src = `images/modle${num[i]}.jpg`;
+                aSpan[i].innerText = `${num[i]}`;
+                aBack[i].classList.remove('active');
+                aBack[i].classList.remove('active');
+                aBack[i].classList.add('unactive');
+                aBack[i].classList.add('unactive');
+            }
+        };
+    </script>
+</body>
+</html>
